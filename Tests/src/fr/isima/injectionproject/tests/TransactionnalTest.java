@@ -21,7 +21,7 @@ public class TransactionnalTest
     }
 
     @Test
-    public void testTransaction() {
+    public void test() {
         try {
             EJBInjector.inject(this);
         }
@@ -35,6 +35,7 @@ public class TransactionnalTest
         testObjTransactionnal.doTransaction();
 
         // TODO : faire un assert pour tester le bon déroulement de la transaction
+        assertTrue(false);
     }
 
 

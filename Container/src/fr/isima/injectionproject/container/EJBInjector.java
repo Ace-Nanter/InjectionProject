@@ -4,6 +4,7 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 public class EJBInjector
 {
 
+    private static HashMap<Class<?>, Object> singletonInstances = new HashMap<>();
 
     public static void inject(Object o)
             throws NoImplementationException,
@@ -62,18 +64,22 @@ public class EJBInjector
                 implemToInstantiate = possibleImplementations.iterator().next();
             }
 
-
             // Instanciation
             if(implemToInstantiate != null) {
                 try {
-                    // Check if singleton
+                    // If Singleton
                     if(((Class<?>) implemToInstantiate).isAnnotationPresent(Singleton.class)) {
-
+                        // If it is not already instantiated, we instantiate and put the instance in a HashMap
+                        if(!singletonInstances.containsKey(implemToInstantiate)) {
+                            singletonInstances.put((Class<?>) implemToInstantiate, ((Class<?>) implemToInstantiate).newInstance());
+                        }
+                        field.set(o, singletonInstances.get(implemToInstantiate));
                     }
                     else {
-
+                        // No Singleton annotation found, normal proceed
+                        field.set(o, ((Class<?>) implemToInstantiate).newInstance());
                     }
-                    field.set(o, ((Class<?>) implemToInstantiate).newInstance());
+
                 }
                 catch (IllegalAccessException e) {
                     throw new ImpossibleAllocationException();

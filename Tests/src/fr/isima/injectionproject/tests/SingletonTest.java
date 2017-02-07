@@ -29,7 +29,7 @@ public class SingletonTest
 
 
     @Test
-    public void firstTest() {
+    public void test() {
 
         boolean flag = true;
 
