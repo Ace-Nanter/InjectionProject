@@ -17,7 +17,7 @@ public class NoImplementationTest
     }
 
     @Test(expected = NoImplementationException.class)
-    public void noClassFoundTest() throws NoImplementationException, ImpossibleAllocationException, SeveralImplementationException {
+    public void noClassFoundTest() throws Exception {
         EJBInjector.inject(this);
     }
 }
