@@ -1,12 +1,13 @@
 package fr.isima.injectionproject.tests;
 
 
-import fr.isima.injectionproject.container.*;
-import fr.isima.injectionproject.plugins.log.MyLogger;
-import fr.isima.injectionproject.services.ICascadeService;
+import fr.isima.injectionproject.container.EJBInjector;
+import fr.isima.injectionproject.container.Inject;
+import fr.isima.injectionproject.plugins.log.ILogger;
+import fr.isima.injectionproject.services.IService;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Adrien Pierreval on 17/01/2017.
@@ -14,27 +15,28 @@ import static org.junit.Assert.assertTrue;
 public class LogTest
 {
     @Inject
-    MyLogger logger;
+    ILogger logger;
 
     @Inject
-    ICascadeService testLog;
+    IService testObj;
 
-    public LogTest() {
-
-    }
-
+    public LogTest() { }
 
     @Test
-    public void TestInjection() throws Exception
-    {
+    public void test() throws Exception {
 
         EJBInjector.inject(this);
 
+        // Check proxy have been instantiated
+        assertNotNull(testObj);
+        assertNotNull(logger);
 
-        // On effectue l'action
-        testLog.getService();
+        // Call the method
+        assertEquals("Hello World", testObj.doSomething());
 
-        // Test que le log a agi
-        assertTrue(logger.getLog().contains("Service"));
+        // Check log
+        assertTrue(logger.contains("Service - Before : doSomething"));
+        assertTrue(logger.contains("Service - After : doSomething"));
+        assertEquals(2, logger.size());
     }
 }

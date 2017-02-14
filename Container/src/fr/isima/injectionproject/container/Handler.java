@@ -2,6 +2,7 @@ package fr.isima.injectionproject.container;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 
 /**
  * Created by Adrien Pierreval on 07/02/2017.
@@ -42,15 +43,17 @@ public class Handler implements InvocationHandler
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
-        /**
-         * This method is instanciang the object each time it is called
-         */
+        HashSet<IInterceptor> interceptors;
+
         // TODO : instanciate object, check annotation log, do before, do method, do after.
 
-        // Instanciation
+        // Instanciation of the desired service
         if(implementation != null) {
             try {
                 instance = InstanceManager.getInstance(implementation);
+
+                // Cascade injection
+                EJBInjector.inject(instance);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -58,17 +61,19 @@ public class Handler implements InvocationHandler
             }
         }
 
-        // Cascade injection
-        try
-        {
-            EJBInjector.inject(instance);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            throw new Exception();
-            // TODO : specific CascadeException ?
+        // Get interceptors
+        interceptors = InterceptorManager.getInterceptors(instance, method);
+
+        for(IInterceptor interceptor : interceptors) {
+            interceptor.before(instance, method, args);
         }
 
-        return method.invoke(instance, args);
+        Object methodReturn = method.invoke(instance, args);
+
+        for(IInterceptor interceptor : interceptors) {
+            interceptor.after(instance, method, args);
+        }
+
+        return methodReturn;
     }
 }

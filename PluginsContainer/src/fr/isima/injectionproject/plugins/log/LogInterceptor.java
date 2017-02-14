@@ -1,5 +1,6 @@
 package fr.isima.injectionproject.plugins.log;
 
+import fr.isima.injectionproject.container.IInterceptor;
 import fr.isima.injectionproject.container.Inject;
 
 import java.lang.reflect.Method;
@@ -10,13 +11,13 @@ import java.lang.reflect.Method;
 public class LogInterceptor implements IInterceptor
 {
     @Inject
-    MyLogger log;
+    ILogger log;
 
     public void before(Object obj, Method method, Object... params) {
-        // TODO : action before
+        log.add(obj.getClass().getSimpleName() + " - Before : " + method.getName());
     }
 
     public void after(Object obj, Method method, Object... params) {
-        // TODO : action after
+        log.add(obj.getClass().getSimpleName() + " - After : " + method.getName());
     }
 }

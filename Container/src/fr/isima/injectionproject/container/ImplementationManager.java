@@ -22,7 +22,7 @@ public class ImplementationManager
      */
     private static Reflections getReflections() {
         if(reflections == null) {
-            reflections = new Reflections("fr.isima.injectionproject.services");
+            reflections = new Reflections("fr.isima.injectionproject");
         }
 
         return reflections;
