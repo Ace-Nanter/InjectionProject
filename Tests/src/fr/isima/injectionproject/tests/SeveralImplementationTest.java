@@ -19,7 +19,7 @@ public class SeveralImplementationTest
 
 
     @Test(expected = SeveralImplementationException.class)
-    public void severalImplementationTest() throws ImpossibleAllocationException, SeveralImplementationException, NoImplementationException {
+    public void severalImplementationTest() throws Exception {
         EJBInjector.inject(this);
     }
 }

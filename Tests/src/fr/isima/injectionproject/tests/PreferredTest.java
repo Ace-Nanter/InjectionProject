@@ -1,10 +1,13 @@
 package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.EJBInjector;
+import fr.isima.injectionproject.container.Handler;
 import fr.isima.injectionproject.container.Inject;
 import fr.isima.injectionproject.services.IPreferredImplemenService;
 import fr.isima.injectionproject.services.Service;
 import org.junit.Test;
+
+import java.lang.reflect.Proxy;
 
 import static org.junit.Assert.*;
 
@@ -21,16 +24,22 @@ public class PreferredTest
     }
 
     @Test
-    public void PreferredTestInjection() {
-        try {
-            EJBInjector.inject(this);
-        }
-        catch (Exception e) {
-            assertTrue(false);
-        }
+    public void PreferredTestInjection() throws Exception {
+        EJBInjector.inject(this);
 
+        // Check proxy have been instantiated
         assertNotNull(testObj);
-        assertTrue(testObj instanceof Service);
+
+        // Call the method
         assertEquals("Hello World", testObj.doSomething());
+
+        // Check the good implementation has been instantiated
+        Handler handler = (Handler) Proxy.getInvocationHandler(testObj);
+
+        // Check handlers
+        assertTrue(handler instanceof Handler);
+
+        // Check implementation instantiated
+        assertTrue(handler.getInstance() instanceof Service);
     }
 }

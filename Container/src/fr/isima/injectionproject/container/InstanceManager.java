@@ -22,25 +22,21 @@ public class InstanceManager
      * @return The instance of the implementation required
      * @throws ImpossibleAllocationException If something goes wrong
      */
-    public static Object getInstance(Class<?> implementation) throws IllegalAccessException, InstantiationException
+    protected static Object getInstance(Class<?> implementation) throws IllegalAccessException, InstantiationException
     {
         Object instance = null;
         // If Singleton
-        if (implementation.isAnnotationPresent(Singleton.class))
-        {
+        if (implementation.isAnnotationPresent(Singleton.class)) {
             // If it is not already instantiated, we instantiate and put the instance in a HashMap
-            if (!singletonInstances.containsKey(implementation))
-            {
+            if (!singletonInstances.containsKey(implementation)) {
                 instance = implementation.newInstance();
                 singletonInstances.put(implementation, instance);
-            } else
-            {
+            } else {
                 instance = singletonInstances.get(implementation);
             }
         }
         // No Singleton annotation found, normal proceed
-        else
-        {
+        else {
             instance = implementation.newInstance();
         }
 

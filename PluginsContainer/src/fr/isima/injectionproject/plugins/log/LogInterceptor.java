@@ -12,7 +12,11 @@ public class LogInterceptor implements IInterceptor
     @Inject
     MyLogger log;
 
-    public void before(Object obj, Method method, Object... params) { }
+    public void before(Object obj, Method method, Object... params) {
+        // TODO : action before
+    }
 
-    public void after(Object obj, Method method, Object... params) { }
+    public void after(Object obj, Method method, Object... params) {
+        // TODO : action after
+    }
 }

@@ -8,6 +8,10 @@ import java.util.List;
 /**
  * Created by Adrien Pierreval on 24/01/2017.
  */
+
+/**
+ * Manage the log
+ */
 @Singleton /* Singleton pour éviter de faire plusieurs instances du logger */
 public class MyLogger
 {

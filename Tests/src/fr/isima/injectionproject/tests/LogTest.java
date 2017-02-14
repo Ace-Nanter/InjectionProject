@@ -25,7 +25,7 @@ public class LogTest
 
 
     @Test
-    public void TestInjection() throws SeveralImplementationException, ImpossibleAllocationException, NoImplementationException
+    public void TestInjection() throws Exception
     {
 
         EJBInjector.inject(this);
