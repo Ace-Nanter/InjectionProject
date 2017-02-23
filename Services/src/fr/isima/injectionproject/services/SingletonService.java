@@ -15,7 +15,7 @@ public class SingletonService implements ISingletonService
 {
     public String doSomething()
     {
-        return "Hello Singleton";
+        return "Hello from " + this.getClass().getSimpleName();
     }
 
     @Transactionnal(REQUIRES)

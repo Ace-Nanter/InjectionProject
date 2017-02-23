@@ -37,6 +37,5 @@ public class LogTest
         // Check log
         assertTrue(logger.contains("Service - Before : doSomething"));
         assertTrue(logger.contains("Service - After : doSomething"));
-        assertEquals(2, logger.size());
     }
 }

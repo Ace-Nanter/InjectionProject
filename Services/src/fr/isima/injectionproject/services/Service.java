@@ -22,7 +22,7 @@ public class Service implements IService, IPreferredImplemenService, ISeveralImp
 
     public String doSomething()
     {
-        return "Hello World";
+        return "Hello from " + this.getClass().getSimpleName();
     }
 
     @Transactionnal(REQUIRES)

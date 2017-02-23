@@ -9,6 +9,7 @@ import fr.isima.injectionproject.services.IService;
 import fr.isima.injectionproject.services.ISingletonService;
 import fr.isima.injectionproject.services.Service;
 import fr.isima.injectionproject.services.SingletonService;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Proxy;
@@ -23,20 +24,21 @@ public class InjectionTest
     @Inject
     ISingletonService testObj2;
 
-    public InjectionTest() {    }
+    @Before
+    public void before() throws Exception {
+        EJBInjector.inject(this);
+    }
 
     @Test
-    public void test() throws Exception {
-
-        EJBInjector.inject(this);
+    public void test() {
 
         // Check proxys have been instantiated
         assertNotNull(testObj1);
         assertNotNull(testObj2);
 
         // Call the method
-        assertEquals("Hello World", testObj1.doSomething());
-        assertEquals("Hello Singleton", testObj2.doSomething());
+        assertEquals("Hello from Service", testObj1.doSomething());
+        assertEquals("Hello from SingletonService", testObj2.doSomething());
 
         // Check the good implementation has been instantiated
         Handler handler1 = (Handler) Proxy.getInvocationHandler(testObj1);
