@@ -1,7 +1,7 @@
 package fr.isima.injectionproject.plugins.log;
 
-import fr.isima.injectionproject.container.Preferred;
-import fr.isima.injectionproject.container.Singleton;
+import fr.isima.injectionproject.container.Annotations.Preferred;
+import fr.isima.injectionproject.container.Annotations.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;

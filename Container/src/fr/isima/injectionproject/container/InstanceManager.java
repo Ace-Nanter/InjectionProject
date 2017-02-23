@@ -1,5 +1,8 @@
 package fr.isima.injectionproject.container;
 
+import fr.isima.injectionproject.container.Annotations.Singleton;
+import fr.isima.injectionproject.container.Exceptions.ImpossibleAllocationException;
+
 import java.util.HashMap;
 
 /**

@@ -1,7 +1,9 @@
 package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.*;
-import fr.isima.injectionproject.services.INoImplemService;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.container.Exceptions.NoImplementationException;
+import fr.isima.injectionproject.services.Interfaces.INoImplemService;
 import org.junit.Test;
 
 /**
@@ -12,12 +14,8 @@ public class NoImplementationTest
     @Inject
     INoImplemService testNoImplem;
 
-    public NoImplementationTest() {
-
-    }
-
     @Test(expected = NoImplementationException.class)
-    public void noClassFoundTest() throws Exception {
+    public void checkException() throws Exception {
         EJBInjector.inject(this);
     }
 }

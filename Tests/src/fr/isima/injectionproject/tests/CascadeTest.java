@@ -2,11 +2,12 @@ package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Handler;
-import fr.isima.injectionproject.container.Inject;
-import fr.isima.injectionproject.services.CascadeService;
-import fr.isima.injectionproject.services.ICascadeService;
-import fr.isima.injectionproject.services.IService;
-import fr.isima.injectionproject.services.Service;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.services.Services.CascadeService;
+import fr.isima.injectionproject.services.Interfaces.ICascadeService;
+import fr.isima.injectionproject.services.Interfaces.IService;
+import fr.isima.injectionproject.services.Services.Service;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Proxy;
@@ -19,52 +20,69 @@ import static org.junit.Assert.*;
 public class CascadeTest
 {
     @Inject
-    ICascadeService testCascade;
+    ICascadeService testCascadeService;
 
-    public CascadeTest() {  }
+    Handler outerHandler;
+    IService testInnerService;
 
-
-
-    @Test
-    public void test() throws Exception {
+    @Before
+    public void before() throws Exception {
         EJBInjector.inject(this);
 
-        /*------- First level -------*/
+        // Get outerHandler
+        outerHandler = (Handler) Proxy.getInvocationHandler(testCascadeService);
 
-        // Check proxy have been instantiated
-        assertNotNull(testCascade);
+        // Call method
+        assertEquals("Hello from CascadeService", testCascadeService.doSomething());
 
-        // Call the method
-        assertEquals("Hello World", testCascade.doSomething());
+        // Get inner instance
+        CascadeService service = (CascadeService) outerHandler.getInstance();
+        testInnerService = service.getInnerService();
+    }
 
-        // Check the good implementation has been instantiated
-        Handler handler1 = (Handler) Proxy.getInvocationHandler(testCascade);
+    @Test
+    public void checkProxy() {
 
-        // Check handlers
-        assertTrue(handler1 instanceof Handler);
+        // Check proxy has been instantiated
+        assertNotNull(testCascadeService);
 
-        // Check implementation
-        assertTrue(handler1.getInstance() instanceof CascadeService);
+        // Check representation
+        assertTrue(Proxy.isProxyClass(testCascadeService.getClass()));
+    }
 
+    @Test
+    public void checkOuterInstance() {
 
-        /*------- Second level -------*/
-
-        CascadeService service = (CascadeService) handler1.getInstance();
-        IService serviceInjected = service.getService();
-
-        // Check proxy have been instantiated
-        assertNotNull(serviceInjected);
-
-        // Call the method
-        assertEquals("Hello World", serviceInjected.doSomething());
-
-        // Check the good implementation has been instantiated
-        Handler handler2 = (Handler) Proxy.getInvocationHandler(serviceInjected);
-
-        // Check handlers
-        assertTrue(handler2 instanceof Handler);
+        // Check outerHandler
+        assertTrue(outerHandler instanceof Handler);
 
         // Check implementation
-        assertTrue(handler2.getInstance() instanceof Service);
+        assertTrue(outerHandler.getInstance() instanceof CascadeService);
+    }
+
+    @Test
+    public void checkInnerProxy() {
+
+        // Check proxy has been instantiated
+        assertNotNull(testInnerService);
+
+        // Check representation
+        assertTrue(Proxy.isProxyClass(testInnerService.getClass()));
+    }
+
+    @Test
+    public void checkInnerInstance() {
+
+        // Call the method
+        assertEquals("Hello from Service", testInnerService.doSomething());
+
+        // Check outerHandler
+        Handler innerHandler = (Handler) Proxy.getInvocationHandler(testInnerService);
+
+        // Check handler
+        assertTrue(innerHandler instanceof Handler);
+
+        // Check implementation
+        assertTrue(innerHandler.getInstance() instanceof Service);
     }
 }

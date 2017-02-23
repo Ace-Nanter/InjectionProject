@@ -1,5 +1,8 @@
 package fr.isima.injectionproject.container;
 
+import fr.isima.injectionproject.container.Annotations.Preferred;
+import fr.isima.injectionproject.container.Exceptions.NoImplementationException;
+import fr.isima.injectionproject.container.Exceptions.SeveralImplementationException;
 import org.reflections.Reflections;
 
 import java.util.HashSet;

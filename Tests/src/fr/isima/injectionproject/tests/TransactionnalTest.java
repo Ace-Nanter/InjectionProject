@@ -1,7 +1,7 @@
 package fr.isima.injectionproject.tests;
 
-import fr.isima.injectionproject.container.Inject;
-import fr.isima.injectionproject.services.IService;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.services.Interfaces.IService;
 
 /**
  * Created by Adrien Pierreval on 17/01/2017.

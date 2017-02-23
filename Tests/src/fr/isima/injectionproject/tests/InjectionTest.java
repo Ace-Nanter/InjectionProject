@@ -4,11 +4,11 @@ package fr.isima.injectionproject.tests; /**
 
 import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Handler;
-import fr.isima.injectionproject.container.Inject;
-import fr.isima.injectionproject.services.IService;
-import fr.isima.injectionproject.services.ISingletonService;
-import fr.isima.injectionproject.services.Service;
-import fr.isima.injectionproject.services.SingletonService;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.services.Interfaces.IService;
+import fr.isima.injectionproject.services.Interfaces.ISingletonService;
+import fr.isima.injectionproject.services.Services.Service;
+import fr.isima.injectionproject.services.Services.SingletonService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,10 +19,10 @@ import static org.junit.Assert.*;
 public class InjectionTest
 {
     @Inject
-    IService testObj1;
+    IService testService1;
 
     @Inject
-    ISingletonService testObj2;
+    ISingletonService testService2;
 
     @Before
     public void before() throws Exception {
@@ -30,19 +30,27 @@ public class InjectionTest
     }
 
     @Test
-    public void test() {
+    public void checkProxies() {
 
-        // Check proxys have been instantiated
-        assertNotNull(testObj1);
-        assertNotNull(testObj2);
+        // Check proxies have been instantiated
+        assertNotNull(testService1);
+        assertNotNull(testService2);
 
-        // Call the method
-        assertEquals("Hello from Service", testObj1.doSomething());
-        assertEquals("Hello from SingletonService", testObj2.doSomething());
+        // Check representation
+        assertTrue(Proxy.isProxyClass(testService1.getClass()));
+        assertTrue(Proxy.isProxyClass(testService2.getClass()));
+    }
 
-        // Check the good implementation has been instantiated
-        Handler handler1 = (Handler) Proxy.getInvocationHandler(testObj1);
-        Handler handler2 = (Handler) Proxy.getInvocationHandler(testObj2);
+    @Test
+    public void checkInstances() {
+
+        // Call the methods
+        assertEquals("Hello from Service", testService1.doSomething());
+        assertEquals("Hello from SingletonService", testService2.doSomething());
+
+        // Get handlers
+        Handler handler1 = (Handler) Proxy.getInvocationHandler(testService1);
+        Handler handler2 = (Handler) Proxy.getInvocationHandler(testService2);
 
         // Check handlers
         assertTrue(handler1 instanceof Handler);

@@ -2,10 +2,15 @@ package fr.isima.injectionproject.tests;
 
 
 import fr.isima.injectionproject.container.EJBInjector;
-import fr.isima.injectionproject.container.Inject;
+import fr.isima.injectionproject.container.Handler;
+import fr.isima.injectionproject.container.Annotations.Inject;
 import fr.isima.injectionproject.plugins.log.ILogger;
-import fr.isima.injectionproject.services.IService;
+import fr.isima.injectionproject.services.Interfaces.IService;
+import fr.isima.injectionproject.services.Services.Service;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Proxy;
 
 import static org.junit.Assert.*;
 
@@ -18,21 +23,45 @@ public class LogTest
     ILogger logger;
 
     @Inject
-    IService testObj;
+    IService testService;
 
-    public LogTest() { }
+    Handler handler;
 
-    @Test
-    public void test() throws Exception {
+    @Before
+    public void before() throws Exception {
 
         EJBInjector.inject(this);
 
-        // Check proxy have been instantiated
-        assertNotNull(testObj);
-        assertNotNull(logger);
+        handler = (Handler) Proxy.getInvocationHandler(testService);
 
         // Call the method
-        assertEquals("Hello World", testObj.doSomething());
+        assertEquals("Hello from Service", testService.doSomething());
+    }
+
+    @Test
+    public void checkProxy() {
+
+        // Check proxies have been instantiated
+        assertNotNull(testService);
+        assertNotNull(logger);
+
+        // Check representation
+        assertTrue(Proxy.isProxyClass(testService.getClass()));
+        assertTrue(Proxy.isProxyClass(logger.getClass()));
+    }
+
+    @Test
+    public void checkInstances() {
+
+        // Check handler
+        assertTrue(handler instanceof Handler);
+
+        // Check instance
+        assertTrue(handler.getInstance() instanceof Service);
+    }
+
+    @Test
+    public void checkLog() {
 
         // Check log
         assertTrue(logger.contains("Service - Before : doSomething"));

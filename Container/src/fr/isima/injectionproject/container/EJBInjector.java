@@ -1,5 +1,8 @@
 package fr.isima.injectionproject.container;
 
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.container.Exceptions.ImpossibleAllocationException;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;

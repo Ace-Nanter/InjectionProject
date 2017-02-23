@@ -2,12 +2,11 @@ package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Handler;
-import fr.isima.injectionproject.container.Inject;
-import fr.isima.injectionproject.container.Singleton;
-import fr.isima.injectionproject.services.IService;
-import fr.isima.injectionproject.services.ISingletonService;
-import fr.isima.injectionproject.services.Service;
-import fr.isima.injectionproject.services.SingletonService;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.services.Interfaces.IService;
+import fr.isima.injectionproject.services.Interfaces.ISingletonService;
+import fr.isima.injectionproject.services.Services.Service;
+import fr.isima.injectionproject.services.Services.SingletonService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,42 +31,65 @@ public class SingletonTest
     @Inject
     IService testNonSingleton2;
 
+    Handler[] handlers;
+
     @Before
     public void before() throws Exception {
+
         EJBInjector.inject(this);
-    }
 
-    @Test
-    public void test() throws Exception {
+        // Get handlers
+        handlers = new Handler[4];
 
-        // Verify everything has been instantiated
-        assertNotNull(testSingleton1);
-        assertNotNull(testSingleton2);
-        assertNotNull(testNonSingleton1);
-        assertNotNull(testNonSingleton2);
+        handlers[0] = (Handler) Proxy.getInvocationHandler(testSingleton1);
+        handlers[1] = (Handler) Proxy.getInvocationHandler(testSingleton2);
+        handlers[2] = (Handler) Proxy.getInvocationHandler(testNonSingleton1);
+        handlers[3] = (Handler) Proxy.getInvocationHandler(testNonSingleton2);
 
         // Call methods
         assertEquals("Hello from SingletonService", testSingleton1.doSomething());
         assertEquals("Hello from SingletonService", testSingleton2.doSomething());
         assertEquals("Hello from Service", testNonSingleton1.doSomething());
         assertEquals("Hello from Service", testNonSingleton2.doSomething());
+    }
 
-        // Check handlers
-        Handler handler1 = (Handler) Proxy.getInvocationHandler(testSingleton1);
-        Handler handler2 = (Handler) Proxy.getInvocationHandler(testSingleton2);
-        Handler handler3 = (Handler) Proxy.getInvocationHandler(testNonSingleton1);
-        Handler handler4 = (Handler) Proxy.getInvocationHandler(testNonSingleton2);
+    @Test
+    public void checkProxies() throws Exception {
+
+        // Check proxies have been instantiated
+        assertNotNull(testSingleton1);
+        assertNotNull(testSingleton2);
+        assertNotNull(testNonSingleton1);
+        assertNotNull(testNonSingleton2);
+
+        // Check representations
+        assertTrue(Proxy.isProxyClass(testSingleton1.getClass()));
+        assertTrue(Proxy.isProxyClass(testSingleton2.getClass()));
+        assertTrue(Proxy.isProxyClass(testNonSingleton1.getClass()));
+        assertTrue(Proxy.isProxyClass(testNonSingleton2.getClass()));
+    }
+
+    @Test
+    public void checkInstances() {
 
         // Verify implementations
-        assertTrue(handler1.getInstance() instanceof SingletonService);
-        assertTrue(handler2.getInstance() instanceof SingletonService);
-        assertTrue(handler3.getInstance() instanceof Service);
-        assertTrue(handler4.getInstance() instanceof Service);
+        assertTrue(handlers[0].getInstance() instanceof SingletonService);
+        assertTrue(handlers[1].getInstance() instanceof SingletonService);
+        assertTrue(handlers[2].getInstance() instanceof Service);
+        assertTrue(handlers[3].getInstance() instanceof Service);
+    }
+
+    @Test
+    public void verifySingleton() {
 
         // Verify singleton has been respected
-        assertSame(handler1.getInstance(), handler2.getInstance());
+        assertSame(handlers[0].getInstance(), handlers[1].getInstance());
+    }
+
+    @Test
+    public void verifyNonSingleton() {
 
         // Verify singleton is not working every time
-        assertNotSame(handler3.getInstance(), handler4.getInstance());
+        assertNotSame(handlers[2].getInstance(), handlers[3].getInstance());
     }
 }

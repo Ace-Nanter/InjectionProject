@@ -1,5 +1,7 @@
 package fr.isima.injectionproject.container;
 
+import fr.isima.injectionproject.container.Annotations.Behaviour;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashSet;

@@ -1,6 +1,6 @@
 package fr.isima.injectionproject.plugins.log;
 
-import fr.isima.injectionproject.container.Behaviour;
+import fr.isima.injectionproject.container.Annotations.Behaviour;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

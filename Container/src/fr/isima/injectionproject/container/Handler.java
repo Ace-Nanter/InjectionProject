@@ -1,5 +1,7 @@
 package fr.isima.injectionproject.container;
 
+import fr.isima.injectionproject.container.Exceptions.ImpossibleAllocationException;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashSet;

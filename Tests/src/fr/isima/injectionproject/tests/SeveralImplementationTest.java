@@ -1,7 +1,9 @@
 package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.*;
-import fr.isima.injectionproject.services.ISeveralImplemService;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.container.Exceptions.SeveralImplementationException;
+import fr.isima.injectionproject.services.Interfaces.ISeveralImplemService;
 import org.junit.Test;
 
 /**
@@ -9,17 +11,11 @@ import org.junit.Test;
  */
 public class SeveralImplementationTest
 {
-
-    // TODO : faire plusieurs classes de test : une pour chaque cas. De cette manière on peut mieux gérer les exceptions au cas par cas
-
     @Inject
     ISeveralImplemService service;
 
-    public SeveralImplementationTest() { }
-
-
     @Test(expected = SeveralImplementationException.class)
-    public void severalImplementationTest() throws Exception {
+    public void checkException() throws Exception {
         EJBInjector.inject(this);
     }
 }

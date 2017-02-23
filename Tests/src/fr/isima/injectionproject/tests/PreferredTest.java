@@ -2,9 +2,10 @@ package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Handler;
-import fr.isima.injectionproject.container.Inject;
-import fr.isima.injectionproject.services.IPreferredImplemenService;
-import fr.isima.injectionproject.services.Service;
+import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.services.Interfaces.IPreferredImplemenService;
+import fr.isima.injectionproject.services.Services.Service;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Proxy;
@@ -17,26 +18,33 @@ import static org.junit.Assert.*;
 public class PreferredTest
 {
     @Inject
-    IPreferredImplemenService testObj;
+    IPreferredImplemenService testPreferredService;
 
-    public PreferredTest() {
-
+    @Before
+    public void before() throws Exception {
+        EJBInjector.inject(this);
     }
 
     @Test
-    public void PreferredTestInjection() throws Exception {
-        EJBInjector.inject(this);
+    public void checkProxy() {
 
         // Check proxy have been instantiated
-        assertNotNull(testObj);
+        assertNotNull(testPreferredService);
+
+        // Check representation
+        assertTrue(Proxy.isProxyClass(testPreferredService.getClass()));
+    }
+
+    @Test
+    public void checkInstance() {
 
         // Call the method
-        assertEquals("Hello World", testObj.doSomething());
+        assertEquals("Hello from Service", testPreferredService.doSomething());
 
-        // Check the good implementation has been instantiated
-        Handler handler = (Handler) Proxy.getInvocationHandler(testObj);
+        // Get outerHandler
+        Handler handler = (Handler) Proxy.getInvocationHandler(testPreferredService);
 
-        // Check handlers
+        // Check outerHandler
         assertTrue(handler instanceof Handler);
 
         // Check implementation instantiated
