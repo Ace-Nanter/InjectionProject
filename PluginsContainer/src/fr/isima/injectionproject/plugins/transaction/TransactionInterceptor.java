@@ -15,16 +15,25 @@ public class TransactionInterceptor implements IInterceptor
     public void before(Object obj, Method method, Object... params)
     {
         // Get requirements
-        boolean askForNew = method.getDeclaredAnnotationsByType(Transactional.class)[0].value() == TransactionalStrategy.REQUIRES;
+        boolean askForNew;
+
+        try {
+            Method serviceMethod = obj.getClass().getMethod(method.getName(), method.getParameterTypes());
+            Transactional transactionalAnnotation = serviceMethod.getDeclaredAnnotation(Transactional.class);
+            askForNew = transactionalAnnotation.value() == TransactionalStrategy.REQUIRES_NEW;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            askForNew = false;
+        }
 
         // Get transaction
         transaction = TransactionManager.getTransaction(this, askForNew);
     }
 
     @Override
-    public void after(Object obj, Method method, Object result, Exception e, Object... params) {
+    public void after(Object obj, Method method, Object result, Throwable exception, Object... params) {
 
-        if(e != null) {
+        if(exception != null) {
             // There has been an exception
             transaction.rollback();
             TransactionManager.closeTransaction(true);

@@ -19,7 +19,7 @@ public class LogInterceptor implements IInterceptor
     }
 
     @Override
-    public void after(Object obj, Method method, Object result, Exception e, Object... params) {
+    public void after(Object obj, Method method, Object result, Throwable e, Object... params) {
         log.add(obj.getClass().getSimpleName() + " - After : " + method.getName());
     }
 }

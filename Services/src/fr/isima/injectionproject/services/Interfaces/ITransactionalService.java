@@ -5,9 +5,9 @@ package fr.isima.injectionproject.services.Interfaces;
  */
 public interface ITransactionalService
 {
-    void doTransactionRequires(boolean launchException) throws Exception;
+    String doTransactionRequires(boolean launchException) throws Exception;
 
-    void doTransactionNew(boolean launchException) throws Exception;
+    String doTransactionNew(boolean launchException) throws Exception;
 
     void launchTransaction(boolean require, boolean launchException) throws Exception;
 }

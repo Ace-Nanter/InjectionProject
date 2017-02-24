@@ -9,6 +9,6 @@ public interface IInterceptor
 {
     void before(Object obj, Method method, Object... params);
 
-    void after(Object obj, Method method, Object result, Exception e, Object... params);
+    void after(Object obj, Method method, Object result, Throwable exception, Object... params);
 }
 

@@ -18,18 +18,22 @@ public class TransactionalService implements ITransactionalService {
 
     @Override
     @Transactional(value = TransactionalStrategy.REQUIRES)
-    public void doTransactionRequires(boolean launchException) throws Exception {
+    public String doTransactionRequires(boolean launchException) throws Exception {
         if(launchException) {
-            throw new Exception();
+            throw new Exception("This is an exception");
         }
+
+        return "Hello from " + this.getClass().getSimpleName();
     }
 
     @Override
     @Transactional(value = TransactionalStrategy.REQUIRES_NEW)
-    public void doTransactionNew(boolean launchException) throws Exception {
+    public String doTransactionNew(boolean launchException) throws Exception {
         if(launchException) {
-            throw new Exception();
+            throw new Exception("This is an exception");
         }
+
+        return "Hello from " + this.getClass().getSimpleName();
     }
 
     @Override

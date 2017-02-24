@@ -58,4 +58,16 @@ public class TransactionManager
         // Unstack the last transaction
         transactions.get().pop();
     }
+
+    public static int getNbBegin() {
+        return nbBegin;
+    }
+
+    public static int getNbCommit() {
+        return nbCommit;
+    }
+
+    public static int getNbRollback() {
+        return nbRollback;
+    }
 }

@@ -3,6 +3,7 @@ package fr.isima.injectionproject.container;
 import fr.isima.injectionproject.container.Exceptions.ImpossibleAllocationException;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 
@@ -70,13 +71,13 @@ public class Handler implements InvocationHandler
         }
 
         Object methodReturn = null;
-        Exception exceptionReturn = null;
+        Throwable exceptionReturn = null;
+
 
         try {
             methodReturn = method.invoke(instance, args);
-        }
-        catch(Exception e) {
-            exceptionReturn = e;
+        } catch (InvocationTargetException e) {
+            exceptionReturn = e.getTargetException();
         }
 
         // After
