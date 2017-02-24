@@ -73,7 +73,6 @@ public class Handler implements InvocationHandler
         Object methodReturn = null;
         Throwable exceptionReturn = null;
 
-
         try {
             methodReturn = method.invoke(instance, args);
         } catch (InvocationTargetException e) {

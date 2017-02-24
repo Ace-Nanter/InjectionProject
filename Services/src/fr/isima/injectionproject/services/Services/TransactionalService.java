@@ -38,14 +38,20 @@ public class TransactionalService implements ITransactionalService {
 
     @Override
     @Transactional(value = TransactionalStrategy.REQUIRES)
-    public void launchTransaction(boolean require, boolean launchException) throws Exception {
-        if(require) {
-            innerService.doTransactionRequires(launchException);
+    public String launchTransaction(boolean require, boolean launchException) throws Exception {
+        try {
+            if(require) {
+                innerService.doTransactionRequires(launchException);
+            }
+            else {
+                innerService.doTransactionNew(launchException);
+            }
         }
-        else {
-            innerService.doTransactionNew(launchException);
+        catch(Exception e) {
+            e.printStackTrace();
         }
 
+        return "Hello from " + this.getClass().getSimpleName();
     }
 
 

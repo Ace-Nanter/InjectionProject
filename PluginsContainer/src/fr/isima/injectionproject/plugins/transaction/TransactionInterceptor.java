@@ -28,6 +28,7 @@ public class TransactionInterceptor implements IInterceptor
 
         // Get transaction
         transaction = TransactionManager.getTransaction(this, askForNew);
+        transaction.begin();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class TransactionInterceptor implements IInterceptor
         }
         else {
             // If this interceptor owns the transaction
-            if(transaction.isOwner(this)) {
+            if(transaction.isOwner(this) && transaction.isActive()) {
 
                 // Commit
                 transaction.commit();

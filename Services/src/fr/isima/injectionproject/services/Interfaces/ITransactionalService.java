@@ -9,5 +9,5 @@ public interface ITransactionalService
 
     String doTransactionNew(boolean launchException) throws Exception;
 
-    void launchTransaction(boolean require, boolean launchException) throws Exception;
+    String launchTransaction(boolean require, boolean launchException) throws Exception;
 }

@@ -15,6 +15,8 @@ public class Transaction implements ITransaction {
      */
     private IInterceptor owner = null;
 
+    private boolean active = false;
+
     public boolean isOwner(IInterceptor interceptor) {
         return owner == interceptor;
     }
@@ -25,16 +27,20 @@ public class Transaction implements ITransaction {
 
     @Override
     public void begin() {
-
+        active = true;
     }
 
     @Override
     public void commit() {
-
+        active = false;
     }
 
     @Override
     public void rollback() {
+        active = false;
+    }
 
+    public boolean isActive() {
+        return active;
     }
 }

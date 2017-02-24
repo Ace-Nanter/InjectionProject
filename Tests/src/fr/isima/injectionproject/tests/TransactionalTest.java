@@ -49,7 +49,7 @@ public class TransactionalTest
     }
 
     @Test
-    public void checkRequiresBeginCommit() throws Exception {
+    public void checkBeginCommit() throws Exception {
 
         // Call the method
         assertEquals("Hello from TransactionalService", testTransactionService.doTransactionRequires(false));
@@ -61,7 +61,8 @@ public class TransactionalTest
     }
 
     @Test
-    public void checkRequiresBeginRollback() throws Exception {
+    public void checkBeginRollback() throws Exception {
+
         // Call the method
         try {
             assertEquals("Hello from TransactionalService", testTransactionService.doTransactionRequires(true));
@@ -77,36 +78,62 @@ public class TransactionalTest
         assertEquals(nbRollback + 1, TransactionManager.getNbRollback());
     }
 
-
-    /*
-
-    // tester service imbriqués et seconde transaction
     @Test
-    public void testRequiresRequires() {
-        long 	b = Transaction.numberOfBegin,
-                r = Transaction.numberOfCommit,
-                c = Transaction.numberOfRollback;
-        assertTrue(service != null);
-        service.transactionalMethod4();
-        assertTrue(Transaction.numberOfBegin==b+1);
-        assertTrue(Transaction.numberOfRollback==r);
-        assertTrue(Transaction.numberOfCommit==c+1);
+    public void checkRequires() throws Exception {
+
+        // Call the method
+        assertEquals("Hello from TransactionalService", testTransactionService.launchTransaction(true, false));
+
+
+        // Check stats
+        assertEquals(nbBegin + 1, TransactionManager.getNbBegin());
+        assertEquals(nbCommit + 1, TransactionManager.getNbCommit());
+        assertEquals(nbRollback, TransactionManager.getNbRollback());
     }
 
-
-    // begin & rollback
     @Test
-    public void testRequiresRequiresNew() {
-        long 	b = Transaction.numberOfBegin,
-                r = Transaction.numberOfCommit,
-                c = Transaction.numberOfRollback;
-        assertTrue(service != null);
-        service.transactionalMethod2();
-        assertTrue(Transaction.numberOfBegin==b+2);
-        assertTrue(Transaction.numberOfRollback==r);
-        assertTrue(Transaction.numberOfCommit==c+2);
+    public void checkNew() throws Exception {
+
+        // Call the method
+        assertEquals("Hello from TransactionalService", testTransactionService.launchTransaction(false, false));
+
+        // Check stats
+        assertEquals(nbBegin + 2, TransactionManager.getNbBegin());
+        assertEquals(nbCommit + 2, TransactionManager.getNbCommit());
+        assertEquals(nbRollback, TransactionManager.getNbRollback());
     }
-*/
 
+    @Test
+    public void checkNewFail() {
 
+        // Call the method
+        try {
+            assertEquals("Hello from TransactionalService", testTransactionService.launchTransaction(false, true));
+        }
+        catch(Exception e) {
+            assertEquals("This is an exception", e.getMessage());
+        }
+
+        // Check stats
+        assertEquals(nbBegin + 2, TransactionManager.getNbBegin());
+        assertEquals(nbCommit + 1, TransactionManager.getNbCommit());
+        assertEquals(nbRollback + 1, TransactionManager.getNbRollback());
+    }
+
+    @Test
+    public void checkRequireFail() {
+
+        // Call the method
+        try {
+            assertEquals("Hello from TransactionalService", testTransactionService.launchTransaction(true, true));
+        }
+        catch(Exception e) {
+            assertEquals("This is an exception", e.getMessage());
+        }
+
+        // Check stats
+        assertEquals(nbBegin + 1, TransactionManager.getNbBegin());
+        assertEquals(nbCommit, TransactionManager.getNbCommit());
+        assertEquals(nbRollback + 1, TransactionManager.getNbRollback());
+    }
 }
