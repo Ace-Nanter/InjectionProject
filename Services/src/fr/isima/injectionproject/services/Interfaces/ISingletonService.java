@@ -6,6 +6,4 @@ package fr.isima.injectionproject.services.Interfaces;
 public interface ISingletonService
 {
     public String doSomething();
-
-    public void doTransaction();
 }

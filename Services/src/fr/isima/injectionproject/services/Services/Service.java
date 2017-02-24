@@ -3,12 +3,9 @@ package fr.isima.injectionproject.services.Services;
 
 import fr.isima.injectionproject.container.Annotations.Preferred;
 import fr.isima.injectionproject.plugins.log.Log;
-import fr.isima.injectionproject.plugins.transaction.Transactionnal;
 import fr.isima.injectionproject.services.Interfaces.IPreferredImplemenService;
 import fr.isima.injectionproject.services.Interfaces.IService;
 import fr.isima.injectionproject.services.Interfaces.ISeveralImplemService;
-
-import static fr.isima.injectionproject.plugins.transaction.TransactionnalStrategy.REQUIRES;
 
 /**
  * Created by Adrien Pierreval on 03/01/2017.
@@ -26,7 +23,4 @@ public class Service implements IService, IPreferredImplemenService, ISeveralImp
     {
         return "Hello from " + this.getClass().getSimpleName();
     }
-
-    @Transactionnal(REQUIRES)
-    public void doTransaction( ) {  }
 }

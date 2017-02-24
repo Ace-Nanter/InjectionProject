@@ -1,9 +1,9 @@
 package fr.isima.injectionproject.tests;
 
 
+import fr.isima.injectionproject.container.Annotations.Inject;
 import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Handler;
-import fr.isima.injectionproject.container.Annotations.Inject;
 import fr.isima.injectionproject.plugins.log.ILogger;
 import fr.isima.injectionproject.services.Interfaces.IService;
 import fr.isima.injectionproject.services.Services.Service;

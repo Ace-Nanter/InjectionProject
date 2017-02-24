@@ -1,7 +1,7 @@
 package fr.isima.injectionproject.plugins.log;
 
-import fr.isima.injectionproject.container.IInterceptor;
 import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.container.IInterceptor;
 
 import java.lang.reflect.Method;
 

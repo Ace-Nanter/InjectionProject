@@ -1,7 +1,7 @@
 package fr.isima.injectionproject.tests;
 
-import fr.isima.injectionproject.container.*;
 import fr.isima.injectionproject.container.Annotations.Inject;
+import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Exceptions.SeveralImplementationException;
 import fr.isima.injectionproject.services.Interfaces.ISeveralImplemService;
 import org.junit.Test;

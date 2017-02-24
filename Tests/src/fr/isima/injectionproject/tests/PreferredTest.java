@@ -1,8 +1,8 @@
 package fr.isima.injectionproject.tests;
 
+import fr.isima.injectionproject.container.Annotations.Inject;
 import fr.isima.injectionproject.container.EJBInjector;
 import fr.isima.injectionproject.container.Handler;
-import fr.isima.injectionproject.container.Annotations.Inject;
 import fr.isima.injectionproject.services.Interfaces.IPreferredImplemenService;
 import fr.isima.injectionproject.services.Services.Service;
 import org.junit.Before;
