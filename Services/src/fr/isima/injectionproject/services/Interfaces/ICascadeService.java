@@ -5,7 +5,7 @@ package fr.isima.injectionproject.services.Interfaces;
  */
 public interface ICascadeService
 {
-    public IService getInnerService();
+    IService getInnerService();
 
-    public String doSomething();
+    String doSomething();
 }

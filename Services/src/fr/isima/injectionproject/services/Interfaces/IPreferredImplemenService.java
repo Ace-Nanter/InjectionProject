@@ -5,5 +5,5 @@ package fr.isima.injectionproject.services.Interfaces;
  */
 public interface IPreferredImplemenService
 {
-    public String doSomething();
+    String doSomething();
 }

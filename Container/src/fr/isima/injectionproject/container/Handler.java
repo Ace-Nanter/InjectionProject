@@ -3,6 +3,7 @@ package fr.isima.injectionproject.container;
 import fr.isima.injectionproject.container.Exceptions.ImpossibleAllocationException;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 
@@ -47,9 +48,7 @@ public class Handler implements InvocationHandler
     {
         HashSet<IInterceptor> interceptors;
 
-        // TODO : instanciate object, check annotation log, do before, do method, do after.
-
-        // Instanciation of the desired service
+        // Instantiation of the desired service
         if(implementation != null) {
             try {
                 instance = InstanceManager.getInstance(implementation);
@@ -66,14 +65,28 @@ public class Handler implements InvocationHandler
         // Get interceptors
         interceptors = InterceptorManager.getInterceptors(instance, method);
 
+        // Before
         for(IInterceptor interceptor : interceptors) {
             interceptor.before(instance, method, args);
         }
 
-        Object methodReturn = method.invoke(instance, args);
+        Object methodReturn = null;
+        Throwable exceptionReturn = null;
 
+        try {
+            methodReturn = method.invoke(instance, args);
+        } catch (InvocationTargetException e) {
+            exceptionReturn = e.getTargetException();
+        }
+
+        // After
         for(IInterceptor interceptor : interceptors) {
-            interceptor.after(instance, method, args);
+            interceptor.after(instance, method, methodReturn, exceptionReturn, args);
+        }
+
+        // If there has been an exception, throw it
+        if(exceptionReturn != null) {
+            throw exceptionReturn;
         }
 
         return methodReturn;

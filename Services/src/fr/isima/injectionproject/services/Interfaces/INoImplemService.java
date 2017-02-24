@@ -5,5 +5,5 @@ package fr.isima.injectionproject.services.Interfaces;
  */
 public interface INoImplemService
 {
-    public String doSomething();
+    String doSomething();
 }

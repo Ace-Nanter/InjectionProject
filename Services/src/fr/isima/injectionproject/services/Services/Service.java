@@ -14,11 +14,6 @@ import fr.isima.injectionproject.services.Interfaces.ISeveralImplemService;
 @Log
 public class Service implements IService, IPreferredImplemenService, ISeveralImplemService
 {
-    /*
-    @Inject
-    IEntityManager em;
-    */
-
     public String doSomething()
     {
         return "Hello from " + this.getClass().getSimpleName();

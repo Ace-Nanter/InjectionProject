@@ -13,11 +13,13 @@ public class LogInterceptor implements IInterceptor
     @Inject
     ILogger log;
 
+    @Override
     public void before(Object obj, Method method, Object... params) {
         log.add(obj.getClass().getSimpleName() + " - Before : " + method.getName());
     }
 
-    public void after(Object obj, Method method, Object... params) {
+    @Override
+    public void after(Object obj, Method method, Object result, Throwable e, Object... params) {
         log.add(obj.getClass().getSimpleName() + " - After : " + method.getName());
     }
 }
