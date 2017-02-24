@@ -5,7 +5,7 @@ package fr.isima.injectionproject.services.Interfaces;
  */
 public interface ISingletonService
 {
-    public String doSomething();
+    String doSomething();
 
-    public void doTransaction();
+    void doTransaction();
 }

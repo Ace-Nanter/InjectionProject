@@ -5,8 +5,5 @@ package fr.isima.injectionproject.services.Interfaces;
  */
 public interface IService
 {
-    public String doSomething();
-
-    public void doTransaction();
-
+    String doSomething();
 }
