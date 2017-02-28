@@ -21,7 +21,6 @@ public class Handler implements InvocationHandler
      * Instance of the object
      */
     private Object instance = null;
-    // TODO : membre static singleton qui va instancier l'object. Quand une méthode est rappelée, si l'objet est déjà là, on ne va pas réinstancier. de cette manière on pourra check les implémentations si c'est les bonnes.
 
     /**
      * Default constructor. Private for singleton requirement.

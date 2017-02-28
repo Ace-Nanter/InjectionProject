@@ -18,17 +18,25 @@ import java.util.List;
 public class Logger implements ILogger
 {
     // Liste de logs pour chaque méthode
-    private List<String> logList = new ArrayList<String>();
+    private List<String> logList = new ArrayList<>();
 
+    @Override
     public int size() {
         return logList.size();
     }
 
+    @Override
     public boolean contains(String log) {
         return logList.contains(log);
     }
 
+    @Override
     public void add(String log) {
         logList.add(log);
+    }
+
+    @Override
+    public void clear() {
+        logList.clear();
     }
 }

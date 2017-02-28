@@ -2,7 +2,6 @@ package fr.isima.injectionproject.tests;
 
 import fr.isima.injectionproject.container.Annotations.Inject;
 import fr.isima.injectionproject.container.EJBInjector;
-import fr.isima.injectionproject.plugins.transaction.Transaction;
 import fr.isima.injectionproject.plugins.transaction.TransactionManager;
 import fr.isima.injectionproject.services.Interfaces.ITransactionalService;
 import org.junit.Before;
@@ -10,9 +9,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Proxy;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Adrien Pierreval on 17/01/2017.

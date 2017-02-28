@@ -5,10 +5,11 @@ package fr.isima.injectionproject.plugins.log;
  */
 public interface ILogger
 {
-    public int size();
+    int size();
 
-    public boolean contains(String log);
+    boolean contains(String log);
 
-    public void add(String log);
+    void add(String log);
 
+    void clear();
 }

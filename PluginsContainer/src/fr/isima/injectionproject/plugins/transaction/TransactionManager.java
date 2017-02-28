@@ -18,7 +18,7 @@ public class TransactionManager
      */
     private static ThreadLocal<Stack<Transaction>> transactions = new ThreadLocal<Stack<Transaction>>() {
         @Override protected Stack<Transaction> initialValue() {
-            return new Stack<Transaction>();
+            return new Stack<>();
         }
     };
 

@@ -6,4 +6,6 @@ package fr.isima.injectionproject.services.Interfaces;
 public interface IService
 {
     String doSomething();
+
+    String doSomethingLogged();
 }
